@@ -1,11 +1,13 @@
 import 'package:blog/core/theme/app_pallet.dart';
+import 'package:blog/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:blog/features/auth/presentation/bloc/auth_event.dart';
 import 'package:blog/features/auth/presentation/pages/signInPage.dart';
 import 'package:blog/features/auth/presentation/widgets/auth_field.dart';
 import 'package:blog/features/auth/presentation/widgets/auth_gradient_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpPage extends StatefulWidget {
-
   const SignUpPage({super.key});
 
   static route() => MaterialPageRoute(
@@ -31,7 +33,7 @@ class _SignUpPage extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-			appBar: AppBar(),
+      appBar: AppBar(),
       resizeToAvoidBottomInset: true,
       body: Padding(
         padding: const EdgeInsets.all(15),
@@ -64,8 +66,19 @@ class _SignUpPage extends State<SignUpPage> {
                 isObscure: true,
               ),
               const SizedBox(height: 20),
-              const AuthGradientButton(
+              AuthGradientButton(
                 buttonText: 'Sign Up',
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    context.read<AuthBloc>().add(
+                          AuthSignUp(
+                            name: nameController.text.trim(),
+                            email: emailController.text.trim(),
+                            password: passwordController.text.trim(),
+                          ),
+                        );
+                  }
+                },
               ),
               const SizedBox(height: 20),
               GestureDetector(

@@ -3,7 +3,7 @@ import 'package:blog/core/usecase/usecase.dart';
 import 'package:blog/features/auth/domian/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
-class UserSignUp implements UseCase<String, Params> {
+class UserSignUp implements UseCase<String, UserSignUpParams> {
   final AuthRepository repository;
   UserSignUp({required this.repository});
   @override
@@ -16,10 +16,10 @@ class UserSignUp implements UseCase<String, Params> {
   }
 }
 
-class Params {
-  String email;
-  String password;
-  String name;
+class UserSignUpParams {
+  final String email;
+  final String password;
+  final String name;
 
-  Params({required this.email, required this.name, required this.password});
+  UserSignUpParams({required this.email, required this.name, required this.password});
 }
