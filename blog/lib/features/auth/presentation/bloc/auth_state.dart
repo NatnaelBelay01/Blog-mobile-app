@@ -1,3 +1,5 @@
+import 'package:blog/features/auth/domian/entity/user.dart';
+
 class AuthState {}
 
 final class AuthInitial extends AuthState {}
@@ -5,8 +7,8 @@ final class AuthInitial extends AuthState {}
 final class AuthLoading extends AuthState {}
 
 final class AuthSuccess extends AuthState {
-  final String uid;
-  AuthSuccess(this.uid);
+  final User user;
+  AuthSuccess(this.user);
 }
 
 final class AuthFailure extends AuthState {

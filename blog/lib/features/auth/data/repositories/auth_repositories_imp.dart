@@ -1,6 +1,7 @@
 import 'package:blog/core/error/exception.dart';
 import 'package:blog/core/error/failure.dart';
 import 'package:blog/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:blog/features/auth/domian/entity/user.dart';
 import 'package:blog/features/auth/domian/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -9,14 +10,14 @@ class AuthRepositoriesImp implements AuthRepository {
 	const AuthRepositoriesImp({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, String>> logInWithEmailPassword(
+  Future<Either<Failure, User>> logInWithEmailPassword(
       {required String email, required String password}) {
     // TODO: implement logInWithEmailPassword
     throw UnimplementedError();
   }
 
   @override
-  Future<Either<Failure, String>> signUpWithEmailPassword({
+  Future<Either<Failure, User>> signUpWithEmailPassword({
     required String name,
     required String email,
     required String password,
