@@ -2,7 +2,6 @@ import 'package:blog/features/auth/domian/usecases/user_login_usecase.dart';
 import 'package:blog/features/auth/domian/usecases/user_sign_up.dart';
 import 'package:blog/features/auth/presentation/bloc/auth_event.dart';
 import 'package:blog/features/auth/presentation/bloc/auth_state.dart';
-import 'package:blog/features/auth/presentation/widgets/auth_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
