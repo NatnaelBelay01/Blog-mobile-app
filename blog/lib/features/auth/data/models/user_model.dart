@@ -14,4 +14,12 @@ class UserModel extends User {
       id: map["id"],
     );
   }
+
+  UserModel copywith({String? id, String? email, String? name}) {
+    return UserModel(
+      name: name ?? this.name,
+      email: email ?? this.email,
+      id: id ?? this.id,
+    );
+  }
 }
