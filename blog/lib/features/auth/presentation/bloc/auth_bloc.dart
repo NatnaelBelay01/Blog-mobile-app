@@ -1,3 +1,5 @@
+import 'package:blog/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:blog/core/entity/user.dart';
 import 'package:blog/core/usecase/usecase.dart';
 import 'package:blog/features/auth/domian/usecases/current_user.dart';
 import 'package:blog/features/auth/domian/usecases/user_login_usecase.dart';
@@ -10,14 +12,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserSignUp _userSignUp;
   final UserLogin _userLogin;
   final CurrentUser _currentuser;
+	final AppUserCubit _appUserCubit;
 
   AuthBloc({
     required UserSignUp userSignUp,
     required UserLogin userLogIn,
     required CurrentUser currentUser,
+		required AppUserCubit appUserCubit,
   })  : _userSignUp = userSignUp,
         _userLogin = userLogIn,
         _currentuser = currentUser,
+				_appUserCubit = appUserCubit,
         super(AuthInitial()) {
     on<AuthIsUserLoggedIn>(_isUserLoggedIn);
     on<AuthSignUp>((event, emit) async {
@@ -31,7 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       result.fold(
         (failure) => emit(AuthFailure(failure.message)),
-        (user) => emit(AuthSuccess(user)),
+        (user) => _emitAuthSuccess(user, emit),
       );
     });
 
@@ -45,7 +50,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       result.fold(
         (failure) => emit(AuthFailure(failure.message)),
-        (user) => emit(AuthSuccess(user)),
+        (user) => _emitAuthSuccess(user, emit),
       );
     });
   }
@@ -57,9 +62,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await _currentuser(NoParams());
     result.fold(
       (failure) => emit(AuthFailure(failure.message)),
-      (user) {
-        emit(AuthSuccess(user));
-      },
+      (user) => _emitAuthSuccess(user, emit),
     );
   }
+
+	void _emitAuthSuccess(User user, Emitter<AuthState> emit){
+		_appUserCubit.updateUser(user);
+		emit(AuthSuccess(user));
+	}
 }

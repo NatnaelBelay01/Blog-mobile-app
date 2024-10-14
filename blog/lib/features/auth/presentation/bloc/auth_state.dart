@@ -1,4 +1,4 @@
-import 'package:blog/features/auth/domian/entity/user.dart';
+import 'package:blog/core/entity/user.dart';
 
 class AuthState {}
 

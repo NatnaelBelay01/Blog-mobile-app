@@ -1,4 +1,4 @@
-import '../../domian/entity/user.dart';
+import 'package:blog/core/entity/user.dart';
 
 class UserModel extends User {
   UserModel({

@@ -1,6 +1,6 @@
 import 'package:blog/core/error/failure.dart';
 import 'package:fpdart/fpdart.dart';
-import '../entity/user.dart';
+import 'package:blog/core/entity/user.dart';
 
 abstract interface class AuthRepository {
   Future<Either<Failure, User>> signUpWithEmailPassword({
