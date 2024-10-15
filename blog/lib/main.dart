@@ -4,6 +4,7 @@ import 'package:blog/core/theme/theme.dart';
 import 'package:blog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog/features/auth/presentation/bloc/auth_event.dart';
 import 'package:blog/features/auth/presentation/pages/signInPage.dart';
+import 'package:blog/features/blog/presentation/pages/blog_page.dart';
 import 'package:blog/init_dependecies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,11 +54,7 @@ class _MyAppState extends State<MyApp> {
         },
         builder: (context, isLoggedIn) {
           if (isLoggedIn) {
-            return const Scaffold(
-              body: Center(
-                child: Text('is logged in'),
-              ),
-            );
+            return const BlogPage();
           }
           return const LogInPage();
         },
