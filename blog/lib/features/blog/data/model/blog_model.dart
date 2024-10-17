@@ -7,7 +7,7 @@ class BlogModel extends Blog {
     required super.content,
     required super.imageUrl,
     required super.title,
-    required super.topics,
+    required super.topic,
     required super.updatedAt,
   });
 
@@ -19,7 +19,7 @@ class BlogModel extends Blog {
       "content": content,
       "image_url": imageUrl,
       "updated_at": updatedAt.toIso8601String(),
-      "topic": topics,
+      "topic": topic,
     };
   }
 
@@ -27,11 +27,33 @@ class BlogModel extends Blog {
     return BlogModel(
       id: blogModel["id"] as String,
       posterId: blogModel["poster_id"] as String,
-      updatedAt: blogModel["updated_at"] == null ? DateTime.now() : DateTime.parse(blogModel["updated_at"]),
+      updatedAt: blogModel["updated_at"] == null
+          ? DateTime.now()
+          : DateTime.parse(blogModel["updated_at"]),
       title: blogModel["title"] as String,
       imageUrl: blogModel["image_url"] as String,
-      topics: List<String>.from(blogModel["topic"] ?? []),
+      topic: List<String>.from(blogModel["topic"] ?? []),
       content: blogModel["content"] as String,
+    );
+  }
+
+  BlogModel copyWith({
+    String? id,
+    List<String>? topic,
+    String? imageUrl,
+    String? posterId,
+    String? title,
+    DateTime? updatedAt,
+    String? content,
+  }) {
+    return BlogModel(
+      id: id ?? this.id,
+      topic: topic ?? this.topic,
+      imageUrl: imageUrl ?? this.imageUrl,
+      posterId: posterId ?? this.posterId,
+      title: title ?? this.title,
+      updatedAt: updatedAt ?? this.updatedAt,
+      content: content ?? this.content,
     );
   }
 }

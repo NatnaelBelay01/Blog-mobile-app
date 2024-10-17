@@ -4,7 +4,7 @@ class Blog {
   final String content;
   final String imageUrl;
   final String title;
-  final List<String> topics;
+  final List<String> topic;
   final DateTime updatedAt;
 
   Blog({
@@ -13,7 +13,7 @@ class Blog {
     required this.content,
     required this.imageUrl,
     required this.title,
-    required this.topics,
+    required this.topic,
     required this.updatedAt,
   });
 }
