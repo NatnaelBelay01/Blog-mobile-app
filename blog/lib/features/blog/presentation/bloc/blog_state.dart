@@ -1,4 +1,6 @@
 
+import 'package:blog/features/blog/domain/entities/blog.dart';
+
 class BlogState{}
 
 class BlogInitial extends BlogState{}
@@ -18,4 +20,11 @@ class BlogSuccess extends BlogState{
 class BlogFailure extends BlogState{
 	final String message;
 	BlogFailure([this.message = 'Something went wrong']);
+}
+
+
+class BlogLoadSuccess extends BlogState{
+	final List<Blog> blogList;
+
+	BlogLoadSuccess({required this.blogList});
 }

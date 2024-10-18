@@ -6,6 +6,7 @@ class Blog {
   final String title;
   final List<String> topic;
   final DateTime updatedAt;
+	final String? posterName;
 
   Blog({
     required this.id,
@@ -15,5 +16,6 @@ class Blog {
     required this.title,
     required this.topic,
     required this.updatedAt,
+		this.posterName,
   });
 }
