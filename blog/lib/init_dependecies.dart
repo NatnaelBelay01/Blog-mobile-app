@@ -7,6 +7,11 @@ import 'package:blog/features/auth/domian/usecases/current_user.dart';
 import 'package:blog/features/auth/domian/usecases/user_login_usecase.dart';
 import 'package:blog/features/auth/domian/usecases/user_sign_up.dart';
 import 'package:blog/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:blog/features/blog/data/datasources/blog_remote_data_source.dart';
+import 'package:blog/features/blog/data/repository/blog_repository_imp.dart';
+import 'package:blog/features/blog/domain/repositories/blog_repository.dart';
+import 'package:blog/features/blog/domain/usecase/upload_blog_usecase.dart';
+import 'package:blog/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -14,6 +19,7 @@ final serviceLocator = GetIt.instance;
 
 Future<void> initDependecies() async {
   _initAuth();
+  _initBlog();
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.anonkey,
@@ -49,15 +55,41 @@ void _initAuth() {
       repository: serviceLocator(),
     ),
   );
-	
-	serviceLocator.registerLazySingleton(() => AppUserCubit());
+
+  serviceLocator.registerLazySingleton(() => AppUserCubit());
 
   serviceLocator.registerLazySingleton(
     () => AuthBloc(
       userSignUp: serviceLocator(),
       userLogIn: serviceLocator(),
       currentUser: serviceLocator(),
-			appUserCubit: serviceLocator(),
+      appUserCubit: serviceLocator(),
+    ),
+  );
+}
+
+void _initBlog() {
+  serviceLocator.registerFactory<BlogRemoteDataSource>(
+    () => BlogRemoteDataSourceImp(
+      supabase: serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerFactory<BlogRepository>(
+    () => BlogRepositoryImp(
+      remoteDataSource: serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerFactory(
+    () => UploadBlog(
+      repository: serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerLazySingleton(
+    () => BlogBloc(
+      uploadBlog: serviceLocator(),
     ),
   );
 }

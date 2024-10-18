@@ -13,7 +13,13 @@ class BlogEditor extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
       ),
-			maxLines: null,
+      maxLines: null,
+      validator: (value) {
+        if (value!.trim().isEmpty) {
+          return '$hintText is missing';
+        }
+        return null;
+      },
     );
   }
 }

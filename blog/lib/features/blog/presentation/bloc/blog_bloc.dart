@@ -11,16 +11,18 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
     });
 
     on<BlogUpload>((event, emit) async {
-      final result = await uploadBlog(BlogParams(
-        content: event.content,
-        title: event.title,
-        posterId: event.posterId,
-        image: event.image,
-        topic: event.topic,
-      ));
+      final result = await uploadBlog(
+        BlogParams(
+          content: event.content,
+          title: event.title,
+          posterId: event.posterId,
+          image: event.image,
+          topic: event.topic,
+        ),
+      );
 
       result.fold(
-        (failure) => emit(BlogFailure()),
+        (failure) => emit(BlogFailure(failure.message)),
         (blog) => emit(BlogSuccess()),
       );
     });

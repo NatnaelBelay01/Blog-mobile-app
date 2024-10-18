@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class BlogPage extends StatelessWidget {
   const BlogPage({super.key});
+	static route() => MaterialPageRoute(builder: (context) => const BlogPage());
 
   @override
   Widget build(BuildContext context) {
