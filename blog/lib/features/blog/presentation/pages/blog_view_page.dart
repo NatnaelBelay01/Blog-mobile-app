@@ -1,4 +1,5 @@
 import 'package:blog/core/utils/calculate_time.dart';
+import 'package:blog/core/utils/format_date.dart';
 import 'package:blog/features/blog/domain/entities/blog.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +37,7 @@ class BlogViewPage extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(
-                "${blog.updatedAt}. ${calculateTime(blog.content)} min",
+                "${formatDate(blog.updatedAt)}. ${calculateTime(blog.content)} min",
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
