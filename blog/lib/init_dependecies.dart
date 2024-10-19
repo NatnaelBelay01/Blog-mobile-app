@@ -1,4 +1,5 @@
 import 'package:blog/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:blog/core/network/internet_checker.dart';
 import 'package:blog/core/secrets/app_secrets.dart';
 import 'package:blog/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:blog/features/auth/data/repositories/auth_repositories_imp.dart';
@@ -14,6 +15,7 @@ import 'package:blog/features/blog/domain/usecase/get_all_blogs.dart';
 import 'package:blog/features/blog/domain/usecase/upload_blog_usecase.dart';
 import 'package:blog/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final serviceLocator = GetIt.instance;
@@ -34,9 +36,19 @@ void _initAuth() {
       supabaseClient: serviceLocator(),
     ),
   );
+
+  serviceLocator.registerFactory(
+    () => InternetConnection(),
+  );
+  serviceLocator.registerFactory<InternetChecker>(
+    () => InternetCheckerImpl(
+      checker: serviceLocator(),
+    ),
+  );
   serviceLocator.registerFactory<AuthRepository>(
     () => AuthRepositoriesImp(
       remoteDataSource: serviceLocator(),
+      connectionChecker: serviceLocator(),
     ),
   );
   serviceLocator.registerFactory(

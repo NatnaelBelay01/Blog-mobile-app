@@ -1,5 +1,6 @@
 import 'package:blog/core/error/exception.dart';
 import 'package:blog/core/error/failure.dart';
+import 'package:blog/core/network/internet_checker.dart';
 import 'package:blog/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:blog/core/entity/user.dart';
 import 'package:blog/features/auth/domian/repository/auth_repository.dart';
@@ -8,7 +9,11 @@ import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 
 class AuthRepositoriesImp implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
-  const AuthRepositoriesImp({required this.remoteDataSource});
+  final InternetChecker connectionChecker;
+  const AuthRepositoriesImp({
+    required this.remoteDataSource,
+    required this.connectionChecker,
+  });
 
   @override
   Future<Either<Failure, User>> currentUser() async {
@@ -43,12 +48,15 @@ class AuthRepositoriesImp implements AuthRepository {
     return _getUser(() async => remoteDataSource.signUpWithEmailPassword(
         name: name, email: email, password: password));
   }
-}
+
 
 Future<Either<Failure, User>> _getUser(
   Future<User> Function() fn,
 ) async {
   try {
+    if (!(await connectionChecker.isConnected)) {
+      return left(Failure("Internet unavailable"));
+    }
     final user = await fn();
     return right(user);
   } on supa.AuthException catch (e) {
@@ -57,3 +65,7 @@ Future<Either<Failure, User>> _getUser(
     return left(Failure(e.message));
   }
 }
+
+
+}
+
