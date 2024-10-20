@@ -8,6 +8,7 @@ import 'package:blog/features/auth/domian/usecases/current_user.dart';
 import 'package:blog/features/auth/domian/usecases/user_login_usecase.dart';
 import 'package:blog/features/auth/domian/usecases/user_sign_up.dart';
 import 'package:blog/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:blog/features/blog/data/datasources/blog_local_data_source.dart';
 import 'package:blog/features/blog/data/datasources/blog_remote_data_source.dart';
 import 'package:blog/features/blog/data/repository/blog_repository_imp.dart';
 import 'package:blog/features/blog/domain/repositories/blog_repository.dart';
@@ -15,7 +16,9 @@ import 'package:blog/features/blog/domain/usecase/get_all_blogs.dart';
 import 'package:blog/features/blog/domain/usecase/upload_blog_usecase.dart';
 import 'package:blog/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final serviceLocator = GetIt.instance;
@@ -27,13 +30,12 @@ Future<void> initDependecies() async {
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.anonkey,
   );
-  serviceLocator.registerLazySingleton(() => supabase.client);
-}
 
-void _initAuth() {
-  serviceLocator.registerFactory<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(
-      supabaseClient: serviceLocator(),
+  Hive.defaultDirectory = (await getApplicationDocumentsDirectory()).path;
+  serviceLocator.registerLazySingleton(() => supabase.client);
+  serviceLocator.registerLazySingleton(
+    () => Hive.box(
+      name: 'blogs',
     ),
   );
 
@@ -45,6 +47,15 @@ void _initAuth() {
       checker: serviceLocator(),
     ),
   );
+}
+
+void _initAuth() {
+  serviceLocator.registerFactory<AuthRemoteDataSource>(
+    () => AuthRemoteDataSourceImpl(
+      supabaseClient: serviceLocator(),
+    ),
+  );
+
   serviceLocator.registerFactory<AuthRepository>(
     () => AuthRepositoriesImp(
       remoteDataSource: serviceLocator(),
@@ -88,9 +99,16 @@ void _initBlog() {
     ),
   );
 
+  serviceLocator.registerFactory<BlogLocalDataSource>(
+    () => BlogLocalDataSourceimpl(
+      box: serviceLocator(),
+    ),
+  );
   serviceLocator.registerFactory<BlogRepository>(
     () => BlogRepositoryImp(
       remoteDataSource: serviceLocator(),
+      localDataSource: serviceLocator(),
+      internetChecker: serviceLocator(),
     ),
   );
 

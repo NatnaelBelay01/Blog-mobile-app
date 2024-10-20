@@ -12,15 +12,25 @@ class BlogLocalDataSourceimpl implements BlogLocalDataSource {
 
   @override
   List<BlogModel> loadBlogs() {
-    // TODO: implement loadBlogs
-    throw UnimplementedError();
+    List<BlogModel> blogs = [];
+    box.read(() {
+      for (int i = 0; i < box.length; i++) {
+        blogs.add(
+          BlogModel.fromJson(
+            box.get(i.toString()),
+          ),
+        );
+      }
+    });
+    return blogs;
   }
 
   @override
   void uploadLocalBlogs({required List<BlogModel> blogs}) {
+		box.clear();
     box.write(() {
       for (int i = 0; i < blogs.length; i++) {
-        box.put(i.toString(), blogs[i]);
+        box.put(i.toString(), blogs[i].toJson());
       }
     });
   }
