@@ -1,6 +1,4 @@
-Here’s your **README** without examples, formatted with markdown for GitHub:
 
----
 
 # Blog App
 
