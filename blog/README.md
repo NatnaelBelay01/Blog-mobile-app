@@ -95,7 +95,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-This version keeps things concise without examples, making it clean for GitHub. Let me know if you'd like further edits!
 
 
 ## App Look
