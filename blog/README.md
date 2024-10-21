@@ -100,16 +100,17 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## App Look
 
 ### Log In Page
-![Log In page](images/blog_sign_in.jpg)
+<img src="images/blog_sign_in.jpg" alt="Log In Page" width="500"/>
 
-### Sing Up Page
-![Sign Up Page](images/blog_sign_up.jpg)
+### Sign Up Page
+<img src="images/blog_sign_up.jpg" alt="Sign Up Page" width="500"/>
 
 ### Blog view Page
-![Blog view Page](images/blog_view.jpg)
+<img src="images/blog_view.jpg" alt="Blog view Page" width="500"/>
 
-### Blog List page
-![Blog List Page](images/blog_list.jpg)
+### Blog List Page
+<img src="images/blog_list.jpg" alt="Blog List Page" width="500"/>
 
 ### Blog Add Page
-![Blog Add Page](images/blog_add.jpg)
+<img src="images/blog_add.jpg" alt="Blog Add Page" width="500"/>
+
