@@ -18,5 +18,9 @@ class BlogUpload extends BlogEvent {
   });
 }
 
+class BlogLoadAll extends BlogEvent {}
 
-class BlogLoadAll extends BlogEvent{}
+class BlogLoadOwn extends BlogEvent {
+  final String posterId;
+  BlogLoadOwn({required this.posterId});
+}

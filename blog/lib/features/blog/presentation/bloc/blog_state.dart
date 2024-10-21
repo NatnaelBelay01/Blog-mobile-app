@@ -28,3 +28,9 @@ class BlogLoadSuccess extends BlogState{
 
 	BlogLoadSuccess({required this.blogList});
 }
+
+class BlogOwnLoadSuccess extends BlogState{
+	final List<Blog> blogList;
+
+	BlogOwnLoadSuccess({required this.blogList});
+}

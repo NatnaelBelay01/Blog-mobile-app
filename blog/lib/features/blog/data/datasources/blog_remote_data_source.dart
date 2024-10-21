@@ -11,6 +11,7 @@ abstract interface class BlogRemoteDataSource {
     required BlogModel blog,
   });
   Future<List<BlogModel>> getAllBlogs();
+  Future<List<BlogModel>> getOwnBlogs(String posterId);
 }
 
 class BlogRemoteDataSourceImp implements BlogRemoteDataSource {
@@ -54,6 +55,20 @@ class BlogRemoteDataSourceImp implements BlogRemoteDataSource {
           .toList();
 
       return blogList;
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<List<BlogModel>> getOwnBlogs(String posterId) async {
+    try {
+      final result =
+          await supabase.from('blogs').select('*').eq('poster_id', posterId);
+      final List<BlogModel> blogModels = result
+          .map((val) => BlogModel.fromJson(val).copyWith(posterName: 'me'))
+          .toList();
+      return blogModels;
     } catch (e) {
       throw ServerException(message: e.toString());
     }

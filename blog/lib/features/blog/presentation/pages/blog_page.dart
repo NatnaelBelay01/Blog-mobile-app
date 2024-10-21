@@ -1,3 +1,5 @@
+import 'package:blog/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:blog/core/common/cubits/app_user/app_user_state.dart';
 import 'package:blog/core/common/widgets/loader.dart';
 import 'package:blog/core/theme/app_pallet.dart';
 import 'package:blog/core/utils/show_snack_bar.dart';
@@ -19,7 +21,12 @@ class BlogPage extends StatefulWidget {
 }
 
 class _BlogPageState extends State<BlogPage> {
-	final List<Color> colors = [AppPallete.gradient1, AppPallete.gradient2, AppPallete.gradient3];
+  int _selectedIndex = 0;
+  final List<Color> colors = [
+    AppPallete.gradient1,
+    AppPallete.gradient2,
+    AppPallete.gradient3
+  ];
   @override
   void initState() {
     super.initState();
@@ -69,6 +76,35 @@ class _BlogPageState extends State<BlogPage> {
         }
         return const SizedBox();
       }),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _selectedIndex,
+        indicatorColor: Colors.red,
+        onDestinationSelected: (int index) {
+          setState(() {
+            _selectedIndex = index;
+            if (_selectedIndex == 0) {
+              context.read<BlogBloc>().add(BlogLoadAll());
+            }
+            if (_selectedIndex == 1) {
+              final posterId =
+                  (context.read<AppUserCubit>().state as AppUserLoggedIn)
+                      .user
+                      .id;
+              context.read<BlogBloc>().add(BlogLoadOwn(posterId: posterId));
+            }
+          });
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.list_alt),
+            label: 'all blogs',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person),
+            label: 'my blogs',
+          ),
+        ],
+      ),
     );
   }
 }
