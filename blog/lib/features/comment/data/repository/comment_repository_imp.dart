@@ -23,6 +23,7 @@ class CommentRepositoryImp implements CommentRepository {
         content: content,
         blogId: blogId,
         userId: userId,
+				commentedAt: DateTime.now()
       );
 
       final res = await remoteDataSource.uploadComment(comment);
