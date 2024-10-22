@@ -9,13 +9,22 @@ class AddComment implements UseCase<Comment, AddCommentParam> {
   AddComment({required this.repository});
   @override
   Future<Either<Failure, Comment>> call(AddCommentParam params) async {
-    return await repository.addComment(params.comment);
+    return await repository.addComment(
+      userId: params.userId,
+      blogId: params.blogId,
+      content: params.content,
+    );
   }
 }
 
 class AddCommentParam {
-  final Comment comment;
+  final String content;
+  final String userId;
+  final String blogId;
 
-  AddCommentParam({required this.comment});
+  AddCommentParam({
+    required this.content,
+    required this.userId,
+    required this.blogId,
+  });
 }
-
