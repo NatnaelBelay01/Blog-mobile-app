@@ -16,6 +16,12 @@ import 'package:blog/features/blog/domain/usecase/get_all_blogs.dart';
 import 'package:blog/features/blog/domain/usecase/get_own_blogs.dart';
 import 'package:blog/features/blog/domain/usecase/upload_blog_usecase.dart';
 import 'package:blog/features/blog/presentation/bloc/blog_bloc.dart';
+import 'package:blog/features/comment/data/datasource/comment_remote_data_source.dart';
+import 'package:blog/features/comment/data/repository/comment_repository_imp.dart';
+import 'package:blog/features/comment/domain/repository/comment_repository.dart';
+import 'package:blog/features/comment/domain/usecase/add_comment_usecase.dart';
+import 'package:blog/features/comment/domain/usecase/load_blog_comments_usecase.dart';
+import 'package:blog/features/comment/presentation/bloc/comment_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -27,6 +33,7 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependecies() async {
   _initAuth();
   _initBlog();
+  initComment();
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.anonkey,
@@ -136,6 +143,39 @@ void _initBlog() {
       uploadBlog: serviceLocator(),
       getAllBlogs: serviceLocator(),
       getOwnBlogs: serviceLocator(),
+    ),
+  );
+}
+
+void initComment() {
+  serviceLocator.registerFactory<CommentRemoteDataSource>(
+    () => CommentRemoteDataSourceImpl(
+      supabase: serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerFactory<CommentRepository>(
+    () => CommentRepositoryImp(
+      remoteDataSource: serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerFactory(
+    () => AddComment(
+      repository: serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerFactory(
+    () => LoadBlogComments(
+      repository: serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerLazySingleton(
+    () => CommentBloc(
+      addComments: serviceLocator(),
+      loadComments: serviceLocator(),
     ),
   );
 }
