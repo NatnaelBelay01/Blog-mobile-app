@@ -36,7 +36,6 @@ class _CommentPageState extends State<CommentPage> {
         bottom: MediaQuery.of(context).viewInsets.bottom, // Adjust for keyboard
       ),
       child: Container(
-        width: double.infinity,
         height: 300,
         decoration: const BoxDecoration(
           color: AppPallete.backgroundColor,
@@ -60,7 +59,7 @@ class _CommentPageState extends State<CommentPage> {
             if (state.comments.isNotEmpty) {
               return Column(
                 children: [
-                  Flexible(
+                  Expanded(
                     child: ListView.builder(
                       itemCount: state.comments.length,
                       itemBuilder: (context, index) {
@@ -72,44 +71,51 @@ class _CommentPageState extends State<CommentPage> {
                   ),
                   Form(
                     key: formKey,
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 280,
-                          child: CommentInput(
-                            controller: commentController,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              context.read<CommentBloc>().add(
-                                    AddCommentEvent(
-                                      blogId: widget.blogId,
-                                      userId: widget.userId,
-                                      content: commentController.text.trim(),
-                                    ),
-                                  );
-                              context
-                                  .read<CommentBloc>()
-                                  .add(FetchComment(blogId: widget.blogId));
-                              commentController.clear();
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              side: const BorderSide(
-                                  color: AppPallete.borderColor, width: 3),
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 280,
+                              child: CommentInput(
+                                controller: commentController,
+                              ),
                             ),
-                            minimumSize: const Size(50, 70),
-                          ),
-                          child: const Icon(Icons.arrow_right_alt_sharp),
-                        )
-                      ],
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  context.read<CommentBloc>().add(
+                                        AddCommentEvent(
+                                          blogId: widget.blogId,
+                                          userId: widget.userId,
+                                          content:
+                                              commentController.text.trim(),
+                                        ),
+                                      );
+                                  context
+                                      .read<CommentBloc>()
+                                      .add(FetchComment(blogId: widget.blogId));
+                                  commentController.clear();
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  side: const BorderSide(
+                                      color: AppPallete.borderColor, width: 3),
+                                ),
+                                minimumSize: const Size(50, 75),
+                              ),
+                              child: const Icon(Icons.arrow_right_alt_sharp),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -122,44 +128,47 @@ class _CommentPageState extends State<CommentPage> {
                   ),
                   Form(
                     key: formKey,
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 280,
-                          child: CommentInput(
-                            controller: commentController,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              context.read<CommentBloc>().add(
-                                    AddCommentEvent(
-                                      blogId: widget.blogId,
-                                      userId: widget.userId,
-                                      content: commentController.text.trim(),
-                                    ),
-                                  );
-                              context
-                                  .read<CommentBloc>()
-                                  .add(FetchComment(blogId: widget.blogId));
-                              commentController.clear();
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              side: const BorderSide(
-                                  color: AppPallete.borderColor, width: 3),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 280,
+                            child: CommentInput(
+                              controller: commentController,
                             ),
-                            minimumSize: const Size(50, 70),
                           ),
-                          child: const Icon(Icons.arrow_right_alt_sharp),
-                        )
-                      ],
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                context.read<CommentBloc>().add(
+                                      AddCommentEvent(
+                                        blogId: widget.blogId,
+                                        userId: widget.userId,
+                                        content: commentController.text.trim(),
+                                      ),
+                                    );
+                                context
+                                    .read<CommentBloc>()
+                                    .add(FetchComment(blogId: widget.blogId));
+                                commentController.clear();
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side: const BorderSide(
+                                    color: AppPallete.borderColor, width: 3),
+                              ),
+                              minimumSize: const Size(50, 76),
+                            ),
+                            child: const Icon(Icons.arrow_right_alt_sharp),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],

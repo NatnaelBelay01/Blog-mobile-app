@@ -83,6 +83,10 @@ class BlogViewPage extends StatelessWidget {
                         ),
                       );
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                    ),
                     child: const Text("Comments"))
               ],
             ),

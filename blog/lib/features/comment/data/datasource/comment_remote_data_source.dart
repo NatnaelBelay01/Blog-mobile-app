@@ -24,7 +24,7 @@ class CommentRemoteDataSourceImpl implements CommentRemoteDataSource {
                 .copywith(name: value['profiles']['name']),
           )
           .toList();
-      return commentList;
+      return commentList.reversed.toList();
     } catch (e) {
       throw ServerException(message: e.toString());
     }

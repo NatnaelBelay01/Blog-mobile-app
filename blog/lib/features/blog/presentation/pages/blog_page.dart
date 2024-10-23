@@ -24,8 +24,8 @@ class _BlogPageState extends State<BlogPage> {
   int _selectedIndex = 0;
   final List<Color> colors = [
     AppPallete.gradient1,
-    AppPallete.gradient2,
-    AppPallete.gradient3
+    AppPallete.gradient1darker,
+    AppPallete.gradient1dark,
   ];
   @override
   void initState() {
