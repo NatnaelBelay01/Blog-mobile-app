@@ -1,3 +1,5 @@
+import 'package:blog/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:blog/core/common/cubits/app_user/app_user_state.dart';
 import 'package:blog/core/utils/calculate_time.dart';
 import 'package:blog/core/utils/format_date.dart';
 import 'package:blog/features/blog/domain/entities/blog.dart';
@@ -65,12 +67,21 @@ class BlogViewPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 ElevatedButton(
                     onPressed: () {
+                      final userId = (context.read<AppUserCubit>().state
+                              as AppUserLoggedIn)
+                          .user
+                          .id;
                       context
                           .read<CommentBloc>()
                           .add(FetchComment(blogId: blog.id));
                       showModalBottomSheet(
-                          context: context,
-                          builder: (context) => const CommentPage());
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (context) => CommentPage(
+                          blogId: blog.id,
+                          userId: userId,
+                        ),
+                      );
                     },
                     child: const Text("Comments"))
               ],

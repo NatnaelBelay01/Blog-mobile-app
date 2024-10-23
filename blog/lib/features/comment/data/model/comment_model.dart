@@ -7,6 +7,7 @@ class CommentModel extends Comment {
     required super.userId,
     required super.content,
     required super.commentedAt,
+    super.name,
   });
   factory CommentModel.fromJson(Map<String, dynamic> commentJson) {
     return CommentModel(
@@ -27,5 +28,23 @@ class CommentModel extends Comment {
       "blog_id": blogId,
       "commenter_id": userId,
     };
+  }
+
+  CommentModel copywith({
+    String? commentId,
+    DateTime? commentedAt,
+    String? content,
+    String? userId,
+    String? blogId,
+    String? name,
+  }) {
+    return CommentModel(
+      name: name ?? this.name,
+      content: content ?? this.content,
+      userId: userId ?? this.userId,
+      blogId: blogId ?? this.blogId,
+      commentId: commentId ?? this.commentId,
+      commentedAt: commentedAt ?? this.commentedAt,
+    );
   }
 }

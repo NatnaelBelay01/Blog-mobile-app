@@ -4,6 +4,7 @@ class Comment {
   final String userId;
 	final String content;
 	final DateTime commentedAt;
+	final String? name;
 
   Comment({
     required this.commentId,
@@ -11,5 +12,6 @@ class Comment {
     required this.userId,
 		required this.content,
 		required this.commentedAt,
+		this.name,
   });
 }
